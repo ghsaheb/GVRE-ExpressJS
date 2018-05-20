@@ -1,13 +1,21 @@
-class House {
-    constructor(id, area, buildingType, address, imageURL, dealType, price, phone, description) {
-        this.id = id;
-        this.area = area;
-        this.buildingType = buildingType;
-        this.address = address;
-        this.imageURL = imageURL;
-        this.dealType = dealType;
-        this.price = price;
-        this.phone = phone;
-        this.description = description;
-    }
-}
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+    var House = sequelize.define('House', {
+        id: DataTypes.STRING,
+        area: DataTypes.INTEGER,
+        buildingType: DataTypes.STRING,
+        address: DataTypes.STRING,
+        imageURL: DataTypes.STRING,
+        dealType: DataTypes.STRING,
+        basePrice: DataTypes.INTEGER,
+        rentSellPrice: DataTypes.INTEGER,
+        phone: DataTypes.STRING,
+        description: DataTypes.STRING
+    });
+
+    // House.associate = function(models) {
+    //     models.House.hasMany(models.Task);
+    // };
+
+    return House;
+};
