@@ -6,16 +6,16 @@ module.exports = (sequelize, DataTypes) => {
         buildingType: DataTypes.STRING,
         address: DataTypes.STRING,
         imageURL: DataTypes.STRING,
-        dealType: DataTypes.STRING,
+        dealType: DataTypes.BOOLEAN,
         basePrice: DataTypes.INTEGER,
         rentSellPrice: DataTypes.INTEGER,
         phone: DataTypes.STRING,
         description: DataTypes.STRING
-    });
-
-    // House.associate = function(models) {
-    //     models.House.hasMany(models.Task);
-    // };
-
+    }, {});
+    House.associate = function(models) {
+        // associations can be defined here
+        House.belongsTo(models.Individual, {foreignKey: 'iid'});
+        House.belongsTo(models.RealEstate, {foreignKey: 'reid'});
+    };
     return House;
 };
