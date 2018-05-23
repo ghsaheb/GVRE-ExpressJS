@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
     var House = sequelize.define('House', {
-        id: DataTypes.STRING,
+        hid: DataTypes.STRING,
         area: DataTypes.INTEGER,
         buildingType: DataTypes.STRING,
         address: DataTypes.STRING,

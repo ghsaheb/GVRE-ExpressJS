@@ -2,15 +2,21 @@
 module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface.createTable('Phones', {
+            id: {
+                allowNull: false,
+                autoIncrement: true,
+                primaryKey: true,
+                type: Sequelize.INTEGER
+            },
             iid: {
                 allowNull: false,
-                primaryKey: true,
+                // primaryKey: true,
                 foreignKey: true,
                 type: Sequelize.STRING
             },
             hid: {
                 allowNull: false,
-                primaryKey: true,
+                // primaryKey: true,
                 foreignKey: true,
                 type: Sequelize.STRING
             },

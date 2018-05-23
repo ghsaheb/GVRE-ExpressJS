@@ -4,7 +4,13 @@ module.exports = {
         return queryInterface.createTable('Houses', {
             id: {
                 allowNull: false,
+                autoIncrement: true,
                 primaryKey: true,
+                type: Sequelize.INTEGER
+            },
+            hid: {
+                allowNull: false,
+                // primaryKey: true,
                 type: Sequelize.STRING
             },
             area: {
