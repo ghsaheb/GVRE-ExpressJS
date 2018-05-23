@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     Phone.associate = function(models) {
         // associations can be defined here
         Phone.belongsTo(models.Individual, {foreignKey: 'iid'});
-        Phone.belongsTo(models.RealEstate, {foreignKey: 'reid'});
+        Phone.belongsTo(models.House, {foreignKey: 'hid'});
     };
     return Phone;
 };
