@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
         dealType: DataTypes.BOOLEAN,
         basePrice: DataTypes.INTEGER,
         rentSellPrice: DataTypes.INTEGER,
-        phone: DataTypes.STRING,
         description: DataTypes.STRING
     }, {});
     House.associate = function(models) {
