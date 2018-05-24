@@ -35,9 +35,13 @@ router.put('/', async function(req, res){
             res.status(200);
             res.json({message: "Ok"});
         }
-        else {
+        else if (result == null) {
             res.status(404);
             res.json({message: "Not Found"});
+        }
+        else {
+            res.status(500);
+            res.json({message: "Internal Server Error"});
         }
     }
 });
