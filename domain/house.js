@@ -4,6 +4,7 @@ const Individual = require('../models').Individual;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const uuidv4 = require('uuid/v4');
+const request = require('request')
 
 const functions = {
     async reformatHouses(houses) {
@@ -30,6 +31,32 @@ const functions = {
             delete houses[i].dataValues.basePrice;
         }
         return houses;
+    },
+
+    async reformatHouse(house) {
+        house.dataValues.id = house.hid;
+        delete house.dataValues["hid"];
+        if (house.dataValues.dealType){
+            let price = {
+                "sellPrice": 0,
+                "rentPrice": house.dataValues.rentSellPrice,
+                "basePrice": house.dataValues.basePrice
+            };
+            house.dataValues.price = price;
+        }
+        else {
+            let price = {
+                "sellPrice": house.dataValues.rentSellPrice,
+                "rentPrice": 0,
+                "basePrice": 0
+            };
+            house.dataValues.price = price;
+        }
+        delete house.dataValues.rentSellPrice;
+        delete house.dataValues.basePrice;
+        delete house.dataValues.reid;
+        delete house.dataValues.iid;
+        return house;
     },
 
     async getHouses(area, dealType, buildingType, maxPrice) {
@@ -105,24 +132,44 @@ const functions = {
 
     async findHouse(id) {
         const house = await House.findOne({
+            attributes: ['hid', 'area', 'buildingType', 'address', 'imageURL',
+                'dealType', 'basePrice', 'rentSellPrice', 'description', 'iid', 'reid'],
             where: {
                 hid: id
             }
         });
-        if (house === null || house === undefined) return;
+        if (house === null || house === undefined) return null;
         if (house.reid === null || house.reid === undefined) {
             const owner = await Individual.findOne({
                 where: {
                     username: house.iid
                 }
             });
-            house.phone = owner.phone;
-            return house;
+            house.dataValues.phone = owner.phone;
+            return await functions.reformatHouse(house);
         }
         else {
-            const url = house.reid;
-            
+            const options = {
+                url: house.reid + '/' + id,
+                method: 'GET',
+                json: true
+            };
+            let result = null;
+            result = await functions.doRequest(options);
+            return result.data;
         }
+    },
+
+    doRequest(options) {
+        return new Promise(function (resolve, reject) {
+            request(options, function (error, res, body) {
+                if (!error && res.statusCode === 200) {
+                    resolve(body);
+                } else {
+                    reject(error);
+                }
+            });
+        });
     },
 
     async addNewHouse(house) {

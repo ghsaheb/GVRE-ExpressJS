@@ -99,4 +99,22 @@ router.post('/', async function(req, res){
     res.json({message: "Created"});
 });
 
+router.get('/:house_id', async function(req, res, next) {
+    const id = req.params.house_id;
+    if (id === null || id === undefined){
+        res.status(400);
+        res.json({message: "Bad Request"});
+        return;
+    }
+    const house = await houseDomain.findHouse(id);
+    if (house === null || house === undefined){
+        res.status(404);
+        res.json({message: "Not Found"});
+        return;
+    }
+    res.status(200);
+    res.json(house);
+});
+
+
 module.exports = router;
