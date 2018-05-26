@@ -11,6 +11,9 @@ var phoneRouter = require('./routes/phone');
 
 var app = express();
 
+const realEstateDomain = require('./domain/realestate');
+realEstateDomain.updateRealEstates();
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
